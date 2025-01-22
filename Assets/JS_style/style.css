@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
+html {
+  background-color: #202020;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: "Josefin Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-size: 18px;
+  font-style: normal;
+}
+
+h1 {
+  font-size: 26px;
+}
+h2 {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  padding: 20px;
+  list-style: none;
+}
+
+li {
+  display: inline;
+}
+
+li a {
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 10px;
+  font-size: 24px;
+  cursor: default;
+  transition: 100ms;
+}
+.active {
+  color: #fcff87;
+}
+
+li a:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.active:hover {
+  color: #fcff87;
+}
+
+.box {
+  margin: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1100px;
+  margin-top: 3rem;
+  padding: 2rem;
+  border-radius: 8px;
+  transition: 100ms;
+}
+.box:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+
+.box img {
+  float: right;
+  right: 0;
+  height: 9rem;
+  width: 9rem;
+}
+
+.divider {
+  width: 20%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+#left {
+    width: 50%;
+}
+#right {
+    width: 50%;
+}
