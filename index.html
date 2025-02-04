@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="htmlPage" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Assets/JS_style/style.css">
     <script src="./Assets/JS_style/index.js" defer></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <title>Lapa</title>
 </head>
 
-<body>
+<body onload="loaded()">
     <main>
         <header>
             <nav>
@@ -17,42 +18,43 @@
                     <li><a id="navBtn" class="active" href="#">Problēma</a></li>
                     <li><a id="navBtn" href="#">Resursi</a></li>
                     <li><a id="navBtn" href="#">Sociālie</a></li>
-                    <li><a id="navBtn" href="#">Profils <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt=""></a></li>
+                    <li><a id="navBtn" class="profilebtn" href="#">Profils <img src="./Assets/Images/no-icon.png"
+                                alt=""></a></li>
+                    <label class="toggle">
+                        <input type="checkbox" class="toggleBtn" id="darkmode" onclick="darkMode()">
+                        <span class="slider"></span>
+                    </label>
                 </ul>
             </nav>
         </header>
         <div class="box">
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="tleft" rowspan="2">
-                            <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
-                        </td>
-                        <td id="theader">
-                            <h1>Meow</h1>
-                            <div class="divider"></div>
-                            <h2>Meowwsies</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tright">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat, nunc vitae vestibulum rutrum, ipsum est ornare justo, ac vulputate leo augue quis turpis. Nulla elementum, orci porttitor aliquet lacinia, nunc quam lacinia ligula, venenatis venenatis dui risus eget tortor. Ut mi odio, molestie vitae auctor eu, elementum ut sem. Cras varius nibh lectus, quis viverra erat consectetur sed. In malesuada ante facilisis orci tempus, eu lobortis nunc congue. Integer tempus maximus sapien ac cursus.</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
+            </div>
+            <div>
+                <h1>Meow</h1>
+                <div class="divider"></div>
+                <h2>Meowwsies</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat, nunc vitae
+                    vestibulum rutrum, ipsum est ornare justo, ac vulputate leo augue quis turpis. Nulla
+                    elementum, orci porttitor aliquet lacinia, nunc quam lacinia ligula, venenatis venenatis
+                    dui risus eget tortor. Ut mi odio, molestie vitae auctor eu, elementum ut sem. Cras
+                    varius nibh lectus, quis viverra erat consectetur sed. In malesuada ante facilisis orci
+                    tempus, eu lobortis nunc congue. Integer tempus maximus sapien ac cursus.</p>
+            </div>
+            
         </div>
     </main>
     <footer>
         <nav>
             <ul>
-                <li><a class="active" href="#">Meow</a></li>
-                <li><a href="#">Meow</a></li>
-                <li><a href="#">Meow</a></li>
-                <li><a href="#">Meow</a></li>
-                <li><a href="#">Meow</a></li>
+                <li><a href="#">Sociālie</a></li>
+                <li><a href="#">Atsauces</a></li>
+                <li><a href="#">Info</a></li>
+                <li><a href="#">FAQ</a></li>
             </ul>
         </nav>
     </footer>
 </body>
+
 </html>

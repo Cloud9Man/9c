@@ -1,13 +1,68 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
-html {
+html#htmlPage {
+  background-color: #fff;
+  color: black;
+}
+html#htmlPage.dark {
   background-color: #202020;
+  color: white;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+}
+
+/* Hide the checkbox input */
+.toggle input {
+  display: none;
+}
+
+/* Describe slider's look and position. */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
+  transition: 100ms;
+  border-radius: 8px;
+}
+
+/* Describe the white ball's location 
+    and appearance in the slider. */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 100ms;
+  border-radius: 50%;
+}
+
+/* Modify the slider's background color to 
+    green once the checkbox has been selected. */
+input:checked+.slider {
+  background-color: green;
+}
+
+/* When the checkbox is checked, shift the 
+    white ball towards the right within the slider. */
+input:checked+.slider:before {
+  transform: translateX(10px);
 }
 
 * {
   margin: 0;
   padding: 0;
-  color: white;
   font-family: "Josefin Sans", serif;
   font-optical-sizing: auto;
   font-weight: 500;
@@ -25,6 +80,12 @@ h2 {
 
 a {
   text-decoration: none;
+}
+
+header {
+  background: #151515;
+  margin-bottom: 5rem;
+  padding: 1rem;
 }
 
 nav ul {
@@ -52,13 +113,19 @@ li a {
 }
 
 a img {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
-  padding: 3px;
+  padding: 1px;
   vertical-align: middle;
   transform: translateY(-1.5px);
+  background: white;
 }
+
+.profilebtn  {
+  vertical-align: middle;
+}
+
 
 .active {
   color: #fcff87;
@@ -82,6 +149,9 @@ li a:hover {
   padding: 2rem;
   border-radius: 8px;
   transition: 100ms;
+  display: grid;
+  grid-template-columns: minmax(9rem, 20%) 80% ;
+  gap: 10px;
 }
 .box:hover {
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -100,28 +170,8 @@ li a:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-#left {
-    width: 50%;
-}
-#right {
-    width: 50%;
-}
-
-.tleft {
-  height: 100%;
-  width: 20%;
-}
-
-.tright {
-  width: 80%;
-}
-
-.box table {
-  width: 100%;
-}
-
-td#theader {
-  height: 60px;
+.box p {
+  margin-top: 1rem;
 }
 
 main {
