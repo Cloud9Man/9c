@@ -9,6 +9,34 @@ html#htmlPage.dark {
   color: white;
 }
 
+html#htmlPage div.box {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+html#htmlPage div.box:hover {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+html#htmlPage div.divider  {
+  background: rgba(0, 0, 0, 0.5);
+}
+html#htmlPage div h2  {
+  color: rgba(0, 0, 0, 0.5);;
+}
+
+html#htmlPage.dark div.box {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+html#htmlPage.dark div.box:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+html#htmlPage.dark div.divider  {
+  background: rgba(255, 255, 255, 0.5);
+}
+html#htmlPage.dark div h2  {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+
+
 .toggle {
   position: relative;
   display: inline-block;
@@ -122,10 +150,6 @@ a img {
   background: white;
 }
 
-.profilebtn  {
-  vertical-align: middle;
-}
-
 
 .active {
   color: #fcff87;
@@ -143,7 +167,7 @@ li a:hover {
 
 .box {
   margin: auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  
   width: 1100px;
   margin-top: 3rem;
   padding: 2rem;
