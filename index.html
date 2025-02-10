@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <html id="htmlPage" lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Assets/JS_style/style.css">
     <script src="./Assets/JS_style/index.js" defer></script>
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <title>Lapa</title>
+    <script defer type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-analytics.js";
+        import { getDatabase, ref, push, set, child, get, update } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC6QHmty4_NIUoi3Mps-LuLVsJ12t9Upq4",
+            authDomain: "skolasdarbs9klase.firebaseapp.com",
+            projectId: "skolasdarbs9klase",
+            storageBucket: "skolasdarbs9klase.firebasestorage.app",
+            messagingSenderId: "438803018814",
+            appId: "1:438803018814:web:00af46041186bcafd8cd6f",
+            measurementId: "G-8MDFSKJ4RY",
+            databaseURL: "https://skolasdarbs9klase-default-rtdb.firebaseio.com/",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        const database = getDatabase(app)
+
+        const lastLoggedIn = ref(database, "Last logged in (by any user)")
+        const userDatabase = ref(database, `Users/${getCookie("username")}`)
+        const dbRef = ref(getDatabase());
+
+        const timestamp = Date.now();
+        const time = new Date(timestamp);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+
+
+        try {
+            push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
+        } catch (e) {
+            console.log(`Ak! Kļūda: ${e}`);
+        }
+
+        if (document.cookie.includes('loggedIn=true')) {
+            get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
+                if (user.exists()) {
+                    profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png"
+                    console.log('Set profile icon!')
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    </script>
+    <title>Problēma</title>
 </head>
 
 <body onload="loaded()">
@@ -18,7 +67,8 @@
                     <li><a id="navBtn" class="active" href="#">Problēma</a></li>
                     <li><a id="navBtn" href="#">Resursi</a></li>
                     <li><a id="navBtn" href="#">Sociālie</a></li>
-                    <li><a id="navBtn" class="profilebtn" href="#">meow</a></li>
+                    <li><a id="navBtn" class="profilebtn" href="./profils.html"></a></li>
+                    <li><img class="profileIconHeader" id="profileImage" src="./Assets/Images/no-icon.png" alt=""></li>
                     <label class="toggle">
                         <input type="checkbox" class="toggleBtn" id="darkmode" onclick="darkMode()">
                         <span class="slider"></span>

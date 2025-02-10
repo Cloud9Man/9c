@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html id="htmlPage" lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/JS_style/style.css">
+    <script src="./Assets/JS_style/index.js" defer></script>
+    <title id="pageTitle">Ieiet / Reģistrēties</title>
+</head>
+
+<body onload="loaded()">
+    <main>
+        <header>
+            <nav>
+                <ul>
+                    <li><a id="navBtn" class="" href="./index.html">Problēma</a></li>
+                    <li><a id="navBtn" href="#">Resursi</a></li>
+                    <li><a id="navBtn" href="#">Sociālie</a></li>
+                    <li><a id="navBtn" class="logoutBTN" onclick="logout()" href="#">Izrakstīties</a></li>
+                    <label class="toggle">
+                        <input type="checkbox" class="toggleBtn" id="darkmode" onclick="darkMode()">
+                        <span class="slider"></span>
+                    </label>
+                </ul>
+            </nav>
+        </header>
+        <div class="box hidden">
+
+            <div>
+                <img id="profileImage" src="" alt="">
+                <button id="changePFP" type="button">Nomainīt bildi</button>
+                <button id="changeAbout" class="" type="button">Nomainīt aprakstu</button>
+            </div>
+            <div>
+                <h1 id="profileName"></h1>
+                <div class="divider"></div>
+                <h2 id="profileTag"></h2>
+                <p id="profileAboutYou"></p>
+                <input required id="aboutyouInput" class="hidden" placeholder="Ievadi aprakstu par sevi..">
+            </div>
+
+        </div>
+        <div id="loginBox" class="loginBox hidden">
+            <h2>Profils / Profila izveide</h2>
+            <form id="loginForm">
+                <h3>Lietotājvārds</h3>
+                <input required id="usernameInput" placeholder="Ievadi lietotājvārdu..">
+                <h3>Vecums</h3>
+                <input type="number" required id="ageInput" min="7" max="30" placeholder="Ievadi vecumu..">
+                <h3>Klase</h3>
+                <select id="classSelector">
+                    <option value="1">1. klase</option>
+                    <option value="2">2. klase</option>
+                    <option value="3">3. klase</option>
+                    <option value="4">4. klase</option>
+                    <option value="5">5. klase</option>
+                    <option value="6">6. klase</option>
+                    <option value="7">7. klase</option>
+                    <option value="8">8. klase</option>
+                    <option value="9">9. klase</option>
+                    <option value="10">10. klase</option>
+                    <option value="11">11. klase</option>
+                    <option value="12">12. klase</option>
+                </select>
+                <h3 class="hidden">E-pasts</h3>
+                <input class="hidden" id="emailInput" placeholder="Ievadi e-pastu.. (nav obligāti)">
+                <h3>Parole</h3>
+                <input required id="passwordInput" type="password" placeholder="Ievadi paroli..">
+                <div>
+                    <button type="button" id="login">Ieiet</button>
+                    <button type="button" id="register">Reģistrēties</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="#">Sociālie</a></li>
+                <li><a href="#">Atsauces</a></li>
+                <li><a href="#">Info</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+
+<script defer type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-analytics.js";
+    import { getDatabase, ref, push, set, child, get, update } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6QHmty4_NIUoi3Mps-LuLVsJ12t9Upq4",
+        authDomain: "skolasdarbs9klase.firebaseapp.com",
+        projectId: "skolasdarbs9klase",
+        storageBucket: "skolasdarbs9klase.firebasestorage.app",
+        messagingSenderId: "438803018814",
+        appId: "1:438803018814:web:00af46041186bcafd8cd6f",
+        measurementId: "G-8MDFSKJ4RY",
+        databaseURL: "https://skolasdarbs9klase-default-rtdb.firebaseio.com/",
+    };
+
+    // INPUTS
+
+    var usernameInput = document.getElementById('usernameInput');
+    var emailInput = document.getElementById('emailInput');
+    var passwordInput = document.getElementById('passwordInput');
+    var classSelector = document.getElementById('classSelector');
+    var ageInput = document.getElementById('ageInput');
+    var aboutyouInput = document.getElementById('aboutyouInput');
+
+    // BUTTONS
+
+    var loginBTN = document.querySelector('#login');
+    var changePFP = document.querySelector('#changePFP');
+    var registerBTN = document.querySelector('#register');
+    var changeAboutBTN = document.querySelector('#changeAbout');
+
+
+    //PROFILE
+
+    var profileImage = document.getElementById('profileImage');
+    var profileTag = document.getElementById('profileTag');
+    var profileAboutYou = document.getElementById('profileAboutYou');
+
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    const database = getDatabase(app)
+
+    const lastLoggedIn = ref(database, "Last logged in (by any user)")
+    const userDatabase = ref(database, `Users/${usernameInput.value}`)
+    const dbRef = ref(getDatabase());
+
+    const timestamp = Date.now();
+    const time = new Date(timestamp);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    function changeAbout() {
+
+
+
+    }
+
+    if (document.cookie.includes('loggedIn=true')) {
+        get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
+            if (user.exists()) {
+                profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
+                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
+                profileAboutYou.innerHTML = user.val().aboutyou
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    try {
+        push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
+    } catch (e) {
+        console.log(`Ak! Kļūda: ${e}`);
+    }
+
+    registerBTN.addEventListener('click', () => {
+        if (usernameInput.value.length < 8 || usernameInput.value == null) {
+            alert('Lietotājvārds nedrīkst būt tukšs vai mazāks par 8 burtiem.')
+        } else if (passwordInput.value.length < 8 || passwordInput.value == null) {
+            alert('Parole nedrīkst būt tukša vai mazāka par 8 burtiem.')
+        } else if (emailInput.value != "" && !emailInput.value.includes('@')) {
+            alert('E-pastam jāsatur @ simbolu.')
+        }
+        else {
+            get(child(dbRef, `users/${usernameInput.value}`)).then((user) => {
+                if (user.exists()) {
+                    alert(`Lietotājs jau eksistē ar tādu lietotājvārdu [ ${usernameInput.value} ]. Pamēģini citu.`)
+                } else {
+                    try {
+                        set(ref(database, 'users/' + usernameInput.value), {
+                            username: usernameInput.value,
+                            email: emailInput.value || 'none',
+                            password: passwordInput.value,
+                            imageurl: null,
+                            class: classSelector.options[classSelector.selectedIndex].text,
+                            age: ageInput.value || 'nav norādīts.',
+                            aboutyou: 'Nav apraksta..',
+                        });
+                        document.cookie = `loggedIn=true`
+                        document.cookie = `username=${usernameInput.value}`
+                        document.cookie = `password=${passwordInput.value}`;
+
+                        console.log(document.cookie)
+
+                        alert(`Account has been created!`)
+
+                        location.reload();
+                    } catch (e) {
+                        console.log(`Ak! Kļūda: ${e}`);
+                    }
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    });
+    loginBTN.addEventListener('click', () => {
+        if (usernameInput.value.length == "" || usernameInput.value == null) {
+            alert('Lietotājvārds nedrīkst būt tukšs');
+            return;
+        } else if (passwordInput.value.length == "" || passwordInput.value == null) {
+            alert('Parole nedrīkst būt tukša')
+        }
+        get(child(dbRef, `users/${usernameInput.value}`)).then((user) => {
+            if (user.exists()) {
+                console.log(user.val());
+                console.log(user.val().password);
+                if (user.val().password == passwordInput.value) {
+                    document.cookie = `loggedIn=true`
+                    document.cookie = `username=${usernameInput.value}`
+                    document.cookie = `password=${passwordInput.value}`;
+                    location.reload()
+                } else {
+                    alert("Profile wasn't found or password was incorrect!")
+                    passwordInput.value = ""
+                }
+            } else {
+                alert('Lietotājs nav reģistrēts')
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    });
+
+    changePFP.addEventListener('click', () => {
+        var imageURL = prompt('Ieliec bildes URL (GALĀ JĀBŪT .png / .jpeg VAI TML.)')
+
+        if (imageURL == null || imageURL == "") {
+            alert('Darbība pārtraukta.')
+        } /*else if (!imageURL.includes('.jpeg') || !imageURL.includes('.png') || !imageURL.includes('.jfif') || !imageURL.includes('.gif') || !imageURL.includes('.pdf')) {
+            alert('Atļautie attēlu formāti: .jpeg, .png, .jfif, .gif, .pdf')
+        }*/
+        else {
+
+            update(ref(database, 'users/' + getCookie("username")), {
+                imageurl: imageURL,
+            })
+
+            location.reload()
+        }
+    });
+    changeAboutBTN.addEventListener('click', async () => {
+        profileAboutYou.classList.toggle('hidden')
+        if (profileAboutYou.classList.contains('hidden')) {
+            aboutyouInput.classList.toggle('hidden');
+        } else if (!profileAboutYou.classList.contains('hidden')) {
+            if (aboutyouInput == null || aboutyouInput == "") {
+                profileAboutYou.classList.toggle('hidden');
+                aboutyouInput.classList.toggle('hidden');
+            }
+            else if (aboutyouInput != null || aboutyouInput != "") {
+                aboutyouInput.classList.toggle('hidden');
+                update(ref(database, 'users/' + getCookie("username")), {
+                    aboutyou: aboutyouInput.value,
+                })
+                location.reload()
+            }
+        }
+
+    })
+</script>
+
+</html>
