@@ -206,6 +206,22 @@ li a:hover {
   grid-template-columns: minmax(9rem, 20%) 80% ;
   gap: 10px;
 }
+.chatBoxDiv {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 100ms;
+  padding: 10px;
+  border-radius: 4px;
+  min-height: 200px;
+}
+.chatBoxDiv:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+div #message {
+  margin-bottom: 10px;
+}
+div #message p {
+  margin: 0;
+}
 
 .box button {
   background: transparent;
@@ -232,6 +248,18 @@ li a:hover {
   padding: 5px;
   margin-bottom: 0.5rem;
   resize: vertical;
+}
+
+#messageBox {
+  width: 91%;
+}
+#messageButton,
+#deleteMessage{
+  padding: 5px;
+  vertical-align: middle;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  width: max-content;
 }
 
 .box:hover {

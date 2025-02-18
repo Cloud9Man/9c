@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Assets/JS_style/style.css">
     <script src="./Assets/JS_style/index.js" defer></script>
+    <script src="https://kit.fontawesome.com/7261455006.js" crossorigin="anonymous"></script>
     <script defer type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-analytics.js";
-        import { getDatabase, ref, push, set, child, get, update } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
+        import { getDatabase, ref, push, set, child, get, update, onValue, onChildAdded } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
 
         const firebaseConfig = {
             apiKey: "AIzaSyC6QHmty4_NIUoi3Mps-LuLVsJ12t9Upq4",
@@ -38,6 +39,12 @@
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
 
+        var usernameLabel = document.getElementById('username')
+        var chatImage = document.getElementById('chatImage');
+        var deleteMessage = document.getElementById('deleteMessage');
+        var messageButton = document.getElementById('messageButton');
+        var messageBox = document.getElementById('messageBox')
+
 
         try {
             push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
@@ -51,12 +58,55 @@
                     profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png"
                     console.log('Set profile icon!')
                 }
+                usernameLabel.textContent = getCookie('username');
+
+                chatImage.src = user.val().imageurl || "./Assets/Images/no-icon.png"
             }).catch((error) => {
                 console.error(error);
             });
+            const db = getDatabase();
+
+            onChildAdded(ref(db, 'messages/'), (element) => {
+                let messageUsername = document.createElement("h2");
+                messageUsername.textContent = element.val().username;
+                let messageText = document.createElement("p");
+                messageText.textContent = element.val().message;
+                let message = document.createElement("div");
+                message.id = 'message'
+
+                message.append(messageUsername);
+                message.append(messageText);
+
+                document.getElementById("chatBoxDiv").append(message);
+            });
+            deleteMessage.addEventListener('click', () => {
+                messageBox.value = '';
+            })
+            messageButton.addEventListener('click', () => {
+                var code = Math.floor(Math.random() * 100000000000);
+                console.log(code)
+                if (get(child(dbRef, `users/${getCookie('username')}`)) != null || get(child(dbRef, `users/${getCookie('username')}`)) != "") code = Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000);
+
+                if (messageBox.value == null || messageBox.value == "") return;
+
+                get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
+                    var messageCountTotal = user.val().messageCount
+                    if (messageCountTotal == null || messageCountTotal == "") messageCountTotal = 0;
+                    update(ref(database, `users/${getCookie('username')}`), {
+                        messageCount: messageCountTotal + 1
+                    })
+                    update(ref(database, `messages/${getCookie('username')}-${messageCountTotal}msg`), {
+                        username: getCookie('username'),
+                        message: messageBox.value,
+                    })
+                    messageBox.value = '';
+                }).catch((error) => {
+                    console.error(error);
+                });
+            })
         }
     </script>
-    <title>Problēma</title>
+    <title>Čats</title>
 </head>
 
 <body onload="loaded()">
@@ -64,9 +114,9 @@
         <header>
             <nav>
                 <ul>
-                    <li><a id="navBtn" class="active" href="#">Problēma</a></li>
+                    <li><a id="navBtn" href="./index.html">Problēma</a></li>
                     <li><a id="navBtn" href="#">Resursi</a></li>
-                    <li><a id="navBtn" href="./chat.html">Sociālie</a></li>
+                    <li><a id="navBtn" class="active" href="#">Sociālie</a></li>
                     <li><a id="navBtn" class="profilebtn" href="./profils.html"></a></li>
                     <li><img class="profileIconHeader" id="profileImage" src="./Assets/Images/no-icon.png" alt=""></li>
                     <label class="toggle">
@@ -78,18 +128,15 @@
         </header>
         <div class="box">
             <div>
-                <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
+                <img id="chatImage" alt=""> <br><br>
+                <h1 id="username"></h1>
             </div>
             <div>
-                <h1>Meow</h1>
-                <div class="divider"></div>
-                <h2>Meowwsies</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed placerat, nunc vitae
-                    vestibulum rutrum, ipsum est ornare justo, ac vulputate leo augue quis turpis. Nulla
-                    elementum, orci porttitor aliquet lacinia, nunc quam lacinia ligula, venenatis venenatis
-                    dui risus eget tortor. Ut mi odio, molestie vitae auctor eu, elementum ut sem. Cras
-                    varius nibh lectus, quis viverra erat consectetur sed. In malesuada ante facilisis orci
-                    tempus, eu lobortis nunc congue. Integer tempus maximus sapien ac cursus.</p>
+                <div id="chatBoxDiv" class="chatBoxDiv">
+                </div>
+                <input id="messageBox" type="text">
+                <button id="deleteMessage"><i class="fa-solid fa-xmark"></i></button>
+                <button id="messageButton"><i class="fa-solid fa-chevron-up"></i></button>
             </div>
 
         </div>
