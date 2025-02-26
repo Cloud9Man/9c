@@ -212,12 +212,18 @@ li a:hover {
   padding: 10px;
   border-radius: 4px;
   min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 .chatBoxDiv:hover {
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
 div #message {
   margin-bottom: 10px;
+}
+div #message a {
+  color: rgba(255, 255, 255, 0.5);
 }
 div #message p {
   margin: 0;
@@ -359,6 +365,16 @@ footer {
 
 footer nav {
   padding: 2rem;
+}
+
+.buttonRound {
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 1rem;
 }
 
 ::-webkit-scrollbar {

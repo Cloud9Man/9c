@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html id="htmlPage" lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/JS_style/style.css">
+    <script src="./Assets/JS_style/index.js" defer></script>
+    <title id="pageTitle">Ieiet / Reģistrēties</title>
+</head>
+
+<body onload="loaded()">
+    <main>
+        <header>
+            <nav>
+                <ul>
+                    <li><a id="navBtn" class="" href="./index.html">Problēma</a></li>
+                    <li><a id="navBtn" href="#">Resursi</a></li>
+                    <li><a id="navBtn" href="./chat.html">Sociālie</a></li>
+                    <li><a id="navBtn" class="logoutBTN" onclick="logout()" href="#">Izrakstīties</a></li>
+                    <label class="toggle">
+                        <input type="checkbox" class="toggleBtn" id="darkmode" onclick="darkMode()">
+                        <span class="slider"></span>
+                    </label>
+                </ul>
+            </nav>
+        </header>
+        <div class="box">
+            <div>
+                <img id="profileImage" src="" alt="">
+            </div>
+            <div>
+                <h1 id="profileName"></h1>
+                <div class="divider"></div>
+                <h2 id="profileTag"></h2>
+                <p id="profileAboutYou"></p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="#">Sociālie</a></li>
+                <li><a href="#">Atsauces</a></li>
+                <li><a href="#">Info</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+
+<script defer type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-analytics.js";
+    import { getDatabase, ref, push, set, child, get, update } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6QHmty4_NIUoi3Mps-LuLVsJ12t9Upq4",
+        authDomain: "skolasdarbs9klase.firebaseapp.com",
+        projectId: "skolasdarbs9klase",
+        storageBucket: "skolasdarbs9klase.firebasestorage.app",
+        messagingSenderId: "438803018814",
+        appId: "1:438803018814:web:00af46041186bcafd8cd6f",
+        measurementId: "G-8MDFSKJ4RY",
+        databaseURL: "https://skolasdarbs9klase-default-rtdb.firebaseio.com/",
+    };
+
+    // INPUTS
+
+    var usernameInput = document.getElementById('usernameInput');
+    var emailInput = document.getElementById('emailInput');
+    var passwordInput = document.getElementById('passwordInput');
+    var classSelector = document.getElementById('classSelector');
+    var ageInput = document.getElementById('ageInput');
+    var aboutyouInput = document.getElementById('aboutyouInput');
+
+    // BUTTONS
+
+    var loginBTN = document.querySelector('#login');
+    var changePFP = document.querySelector('#changePFP');
+    var registerBTN = document.querySelector('#register');
+    var changeAboutBTN = document.querySelector('#changeAbout');
+
+
+    //PROFILE
+    var profileName = document.getElementById('profileName');
+    var profileImage = document.getElementById('profileImage');
+    var profileTag = document.getElementById('profileTag');
+    var profileAboutYou = document.getElementById('profileAboutYou');
+
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    const database = getDatabase(app)
+    const dbRef = ref(getDatabase());
+
+    const timestamp = Date.now();
+    const time = new Date(timestamp);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    get(child(dbRef, `users/${getCookie('viewProfile')}`)).then((user) => {
+            if (user.exists()) {
+                profileName.textContent = user.val().username
+                profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
+                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
+                profileAboutYou.innerHTML = user.val().aboutyou
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+</script>
+
+</html>3

@@ -43,8 +43,28 @@
         var chatImage = document.getElementById('chatImage');
         var deleteMessage = document.getElementById('deleteMessage');
         var messageButton = document.getElementById('messageButton');
-        var messageBox = document.getElementById('messageBox')
+        var loginButton = document.getElementById('login');
+        var messageBox = document.getElementById('messageBox');
 
+        const db = getDatabase();
+
+        onChildAdded(ref(db, 'messages/'), (element) => {
+            let a = document.createElement("a");
+            let messageUsername = document.createElement("h2");
+            messageUsername.textContent = element.val().username;
+            a.innerHTML = messageUsername.textContent
+            a.id = 'profileButton';
+            a.onclick = 'profileClicked()';
+            let messageText = document.createElement("p");
+            messageText.textContent = element.val().message;
+            let message = document.createElement("div");
+            message.id = 'message'
+
+            message.append(a);
+            message.append(messageText);
+
+            document.getElementById("chatBoxDiv").append(message);
+        });
 
         try {
             push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
@@ -64,38 +84,20 @@
             }).catch((error) => {
                 console.error(error);
             });
-            const db = getDatabase();
-
-            onChildAdded(ref(db, 'messages/'), (element) => {
-                let messageUsername = document.createElement("h2");
-                messageUsername.textContent = element.val().username;
-                let messageText = document.createElement("p");
-                messageText.textContent = element.val().message;
-                let message = document.createElement("div");
-                message.id = 'message'
-
-                message.append(messageUsername);
-                message.append(messageText);
-
-                document.getElementById("chatBoxDiv").append(message);
-            });
             deleteMessage.addEventListener('click', () => {
                 messageBox.value = '';
             })
             messageButton.addEventListener('click', () => {
-                var code = Math.floor(Math.random() * 100000000000);
-                console.log(code)
-                if (get(child(dbRef, `users/${getCookie('username')}`)) != null || get(child(dbRef, `users/${getCookie('username')}`)) != "") code = Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000);
-
                 if (messageBox.value == null || messageBox.value == "") return;
 
-                get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
-                    var messageCountTotal = user.val().messageCount
+                get(child(dbRef, `messageCount`)).then((data) => {
+                    var messageCountTotal = data.val().messageCount;
                     if (messageCountTotal == null || messageCountTotal == "") messageCountTotal = 0;
-                    update(ref(database, `users/${getCookie('username')}`), {
+
+                    update(ref(database, `messageCount`), {
                         messageCount: messageCountTotal + 1
                     })
-                    update(ref(database, `messages/${getCookie('username')}-${messageCountTotal}msg`), {
+                    update(ref(database, `messages/${messageCountTotal}msg-${getCookie('username')}`), {
                         username: getCookie('username'),
                         message: messageBox.value,
                     })
@@ -104,6 +106,27 @@
                     console.error(error);
                 });
             })
+        } else {
+
+            usernameLabel.textContent = "Ieej, lai rakstītu čatā"
+            chatImage.classList.add('hidden')
+            deleteMessage.classList.add('hidden')
+            messageButton.classList.add('hidden')
+            messageBox.classList.add('hidden')
+            loginButton.classList.remove('hidden')
+
+            loginButton.addEventListener('click', () => {
+                window.location.href = 'profils.html'
+            })
+        }
+        var profileButton = document.getElementById('profileButton');
+
+        window.onclick = function () {
+            if (event.target.id == 'profileButton') {
+                if (event.target.innerHTML == getCookie('username')) return;
+                document.cookie = `viewProfile=${event.target.textContent}`;
+                window.location.href = 'citaProfils.html'
+            }
         }
     </script>
     <title>Čats</title>
@@ -130,6 +153,7 @@
             <div>
                 <img id="chatImage" alt=""> <br><br>
                 <h1 id="username"></h1>
+                <button id="login" class="hidden" type="button">Ieiet</button>
             </div>
             <div>
                 <div id="chatBoxDiv" class="chatBoxDiv">
