@@ -54,11 +54,12 @@
             messageUsername.textContent = element.val().username;
             a.innerHTML = messageUsername.textContent
             a.id = 'profileButton';
+            a.classList.add('clickable');
             a.onclick = 'profileClicked()';
             let messageText = document.createElement("p");
             messageText.textContent = element.val().message;
             let message = document.createElement("div");
-            message.id = 'message'
+            message.id = 'message';
 
             message.append(a);
             message.append(messageText);
@@ -153,14 +154,15 @@
             <div>
                 <img id="chatImage" alt=""> <br><br>
                 <h1 id="username"></h1>
+                <br><br>
                 <button id="login" class="hidden" type="button">Ieiet</button>
             </div>
             <div>
                 <div id="chatBoxDiv" class="chatBoxDiv">
                 </div>
                 <input id="messageBox" type="text">
-                <button id="deleteMessage"><i class="fa-solid fa-xmark"></i></button>
-                <button id="messageButton"><i class="fa-solid fa-chevron-up"></i></button>
+                <button id="deleteMessage"><i class="fa-solid fa-trash"></i></button>
+                <button id="messageButton"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
 
         </div>

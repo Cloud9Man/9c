@@ -18,7 +18,8 @@
                     <li><a id="navBtn" class="" href="./index.html">Problēma</a></li>
                     <li><a id="navBtn" href="#">Resursi</a></li>
                     <li><a id="navBtn" href="./chat.html">Sociālie</a></li>
-                    <li><a id="navBtn" class="logoutBTN" onclick="logout()" href="#">Izrakstīties</a></li>
+                    <li><a id="navBtn" class="profilebtn" href="./profils.html"></a></li>
+                    <li><img class="profileIconHeader" id="profileImage" src="./Assets/Images/no-icon.png" alt=""></li>
                     <label class="toggle">
                         <input type="checkbox" class="toggleBtn" id="darkmode" onclick="darkMode()">
                         <span class="slider"></span>
@@ -110,10 +111,10 @@
 
     get(child(dbRef, `users/${getCookie('viewProfile')}`)).then((user) => {
             if (user.exists()) {
-                profileName.textContent = user.val().username
+                profileName.textContent = user.val().username;
                 profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
                 profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
-                profileAboutYou.innerHTML = user.val().aboutyou
+                profileAboutYou.innerHTML = user.val().aboutyou;
             }
         }).catch((error) => {
             console.error(error);

@@ -261,10 +261,10 @@ div #message p {
 }
 #messageButton,
 #deleteMessage{
-  padding: 5px;
+  padding: 5px 4px;
   vertical-align: middle;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 20px;
+  font-size: 5px;
   width: max-content;
 }
 
@@ -396,5 +396,9 @@ footer nav {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f5f85a;
+  cursor: pointer;
+}
+
+.clickable {
   cursor: pointer;
 }
