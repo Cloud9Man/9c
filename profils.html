@@ -155,6 +155,7 @@
     if (document.cookie.includes('loggedIn=true')) {
         get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
             if (user.exists()) {
+                document.title = `${user.val().username} profile`;
                 profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
                 profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
                 profileAboutYou.innerHTML = user.val().aboutyou

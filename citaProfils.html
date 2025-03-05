@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Assets/JS_style/style.css">
     <script src="./Assets/JS_style/index.js" defer></script>
-    <title id="pageTitle">Ieiet / Reģistrēties</title>
+    <title id="pageTitle"></title>
 </head>
 
 <body onload="loaded()">
@@ -29,7 +29,7 @@
         </header>
         <div class="box">
             <div>
-                <img id="profileImage" src="" alt="">
+                <img id="profileImagee" src="" alt="">
             </div>
             <div>
                 <h1 id="profileName"></h1>
@@ -87,7 +87,7 @@
 
     //PROFILE
     var profileName = document.getElementById('profileName');
-    var profileImage = document.getElementById('profileImage');
+    var profileImage = document.getElementById('profileImagee');
     var profileTag = document.getElementById('profileTag');
     var profileAboutYou = document.getElementById('profileAboutYou');
 
@@ -115,6 +115,7 @@
                 profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
                 profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
                 profileAboutYou.innerHTML = user.val().aboutyou;
+                document.title = `${user.val().username} profile`;
             }
         }).catch((error) => {
             console.error(error);
