@@ -16,7 +16,7 @@
             <nav>
                 <ul>
                     <li><a id="navBtn" class="" href="./index.html">Problēma</a></li>
-                    <li><a id="navBtn" href="#">Resursi</a></li>
+                    <li><a id="navBtn" href="./resursi.html">Resursi</a></li>
                     <li><a id="navBtn" href="./chat.html">Sociālie</a></li>
                     <li><a id="navBtn" class="logoutBTN" onclick="logout()" href="#">Izrakstīties</a></li>
                     <label class="toggle">
@@ -125,6 +125,18 @@
     var profileTag = document.getElementById('profileTag');
     var profileAboutYou = document.getElementById('profileAboutYou');
 
+    const pickerOpts = {
+        types: [
+            {
+                description: "Images",
+                accept: {
+                    "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+                },
+            },
+        ],
+        excludeAcceptAllOption: true,
+        multiple: false,
+    };
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
@@ -172,8 +184,8 @@
     }
 
     registerBTN.addEventListener('click', () => {
-        if (usernameInput.value.length < 8 || usernameInput.value == null) {
-            alert('Lietotājvārds nedrīkst būt tukšs vai mazāks par 8 burtiem.')
+        if (usernameInput.value.length < 4 || usernameInput.value == null) {
+            alert('Lietotājvārds nedrīkst būt tukšs vai mazāks par 4 burtiem.')
         } else if (passwordInput.value.length < 8 || passwordInput.value == null) {
             alert('Parole nedrīkst būt tukša vai mazāka par 8 burtiem.')
         } else if (emailInput.value != "" && !emailInput.value.includes('@')) {
@@ -241,21 +253,26 @@
     });
 
     changePFP.addEventListener('click', () => {
-        var imageURL = prompt('Ieliec bildes URL (GALĀ JĀBŪT .png / .jpeg VAI TML.)')
-
-        if (imageURL == null || imageURL == "") {
-            alert('Darbība pārtraukta.')
-        } /*else if (!imageURL.includes('.jpeg') || !imageURL.includes('.png') || !imageURL.includes('.jfif') || !imageURL.includes('.gif') || !imageURL.includes('.pdf')) {
-            alert('Atļautie attēlu formāti: .jpeg, .png, .jfif, .gif, .pdf')
-        }*/
-        else {
-
-            update(ref(database, 'users/' + getCookie("username")), {
-                imageurl: imageURL,
-            })
-
-            location.reload()
-        }
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = _ => {
+            // you can use this method to get file and perform respective operations
+            let files = input.files[0]
+            if (files) {
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(files);
+                fileReader.addEventListener("load", function () {
+                    console.log(this.result);
+                    profileImage.src = this.result;
+                    update(ref(database, 'users/' + getCookie("username")), {
+                        imageurl: this.result,
+                    })
+                });
+            } else {
+                alert('Darbība pārtraukta.');
+            }
+        };
+        input.click();
     });
     changeAboutBTN.addEventListener('click', async () => {
         profileAboutYou.classList.toggle('hidden')

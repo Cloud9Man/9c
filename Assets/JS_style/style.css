@@ -297,7 +297,15 @@ div #message p {
   padding: 5px 4px;
   vertical-align: middle;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 5px;
+  font-size: 6px;
+  width: max-content;
+}
+
+#searchBTN {
+  padding: 5px 4px;
+  vertical-align: middle;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
   width: max-content;
 }
 
@@ -434,4 +442,17 @@ footer nav {
 
 .clickable {
   cursor: pointer;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+  grid-gap: 10px;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  width: auto;
 }

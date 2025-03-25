@@ -7,7 +7,7 @@ var pageTitle = document.getElementById("pageTitle");
 
 var accountBox = document.querySelector("html#htmlPage div.box");
 var profileBox = document.getElementById("loginBox");
-var logoutBTN = document.querySelector('a#navBtn.logoutBTN')
+var logoutBTN = document.querySelector("a#navBtn.logoutBTN");
 
 function darkMode() {
   if (checkBox.checked == true) {
@@ -46,16 +46,16 @@ function loaded() {
 
   if (document.URL.includes("profils.html")) {
     if (document.cookie.includes("loggedIn=true")) {
-      var profileName = document.getElementById('profileName')
+      var profileName = document.getElementById("profileName");
       profileName.innerHTML = getCookie("username");
 
-      var profileAboutYou = document.getElementById('profileAboutYou')
+      var profileAboutYou = document.getElementById("profileAboutYou");
       accountBox.classList.toggle("hidden");
       console.log("[ Box not hidden ]");
     } else if (!document.cookie.includes("loggedIn=true")) {
       profileBox.classList.toggle("hidden");
       console.log("[ Box hidden] ");
-      logoutBTN.classList.toggle('hidden');
+      logoutBTN.classList.toggle("hidden");
     }
   } else {
     if (!document.cookie.includes("loggedIn=true")) {
