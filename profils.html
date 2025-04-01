@@ -158,12 +158,6 @@
         if (parts.length === 2) return parts.pop().split(";").shift();
     }
 
-    function changeAbout() {
-
-
-
-    }
-
     if (document.cookie.includes('loggedIn=true')) {
         get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
             if (user.exists()) {

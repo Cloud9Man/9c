@@ -38,6 +38,14 @@
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
 
+        const ievietotButton = document.getElementById('login');
+        var usernameInput = document.getElementById('usernameInput');
+        var emailInput = document.getElementById('emailInput');
+        var passwordInput = document.getElementById('passwordInput');
+        var classSelector = document.getElementById('classSelector');
+        var ageInput = document.getElementById('ageInput');
+        var aboutyouInput = document.getElementById('aboutyouInput');
+
         const db = getDatabase();
 
         try {
@@ -56,7 +64,36 @@
                 console.error(error);
             });
         }
-        var loginButton = document.getElementById('post');
+
+        ievietotButton.addEventListener('click', () => {
+            if (usernameInput.value.length < 4 || usernameInput.value == null) {
+                alert('Titls nedrīkst būt tukšs vai mazāks par 4 burtiem.')
+            } else if (passwordInput.value.length < 8 || passwordInput.value == null) {
+                alert('Aprasts nedrīkst būt tukša vai mazāka par 8 burtiem.')
+            }
+            else {
+                get(child(dbRef, `resursi/${usernameInput.value}`)).then((user) => {
+                    if (user.exists()) {
+                        alert(`Lietotājs jau eksistē ar tādu lietotājvārdu [ ${usernameInput.value} ]. Pamēģini citu.`)
+                    } else {
+                        try {
+                            set(ref(database, 'resursi/' + usernameInput.value), {
+                                title: usernameInput.value,
+                                desc: passwordInput.value || 'none',
+                            });
+                            alert(`Account has been created!`)
+
+                            window.location.href = 'resursi.html'
+                        } catch (e) {
+                            console.log(`Ak! Kļūda: ${e}`);
+                        }
+                    }
+                }).catch((error) => {
+                    console.error(error);
+                });
+            }
+        });
+
         onChildAdded(ref(db, 'resursi/'), (element) => {
             let a = document.createElement("a");
             let resourcediv = document.createElement("div");
@@ -66,16 +103,13 @@
             resourceh2.textContent = element.val().title;
             resourcep.textContent = element.val().desc;
 
-            a.href = "./resurs.html"
+            a.href = "./index.html"
             a.append(resourcediv);
             resourcediv.append(resourceh2);
             resourcediv.append(resourcep);
 
             document.getElementById("cards").append(a);
         });
-        loginButton.addEventListener('click', () => {
-            window.location.href = 'ievietotResursu.html'
-        })
     </script>
     <title>Resursi</title>
 </head>
@@ -97,19 +131,17 @@
                 </ul>
             </nav>
         </header>
-        <div class="box">
-            <div>
-                <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
-                <button id="post" type="button">Ievietot</button>
-            </div>
-            <div>
-                <h1>Resursi</h1>
-                <input id="messageBox" placeholder="Meklēt..." type="text">
-                <div id="cards" class="cards">
-
+        <div id="loginBox" class="loginBox">
+            <h2>Profils / Profila izveide</h2>
+            <form id="loginForm">
+                <h3>Titls</h3>
+                <input required id="usernameInput" placeholder="Ievadi lietotājvārdu..">
+                <h3>Apraksts</h3>
+                <input required id="passwordInput" placeholder="Ievadi paroli..">
+                <div>
+                    <button type="button" id="login">Ievietot</button>
                 </div>
-            </div>
-
+            </form>
         </div>
     </main>
     <footer>

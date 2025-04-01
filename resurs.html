@@ -56,7 +56,6 @@
                 console.error(error);
             });
         }
-        var loginButton = document.getElementById('post');
         onChildAdded(ref(db, 'resursi/'), (element) => {
             let a = document.createElement("a");
             let resourcediv = document.createElement("div");
@@ -66,16 +65,13 @@
             resourceh2.textContent = element.val().title;
             resourcep.textContent = element.val().desc;
 
-            a.href = "./resurs.html"
+            a.href = "./index.html"
             a.append(resourcediv);
             resourcediv.append(resourceh2);
             resourcediv.append(resourcep);
 
             document.getElementById("cards").append(a);
         });
-        loginButton.addEventListener('click', () => {
-            window.location.href = 'ievietotResursu.html'
-        })
     </script>
     <title>Resursi</title>
 </head>
@@ -100,13 +96,27 @@
         <div class="box">
             <div>
                 <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
-                <button id="post" type="button">Ievietot</button>
             </div>
             <div>
                 <h1>Resursi</h1>
                 <input id="messageBox" placeholder="Meklēt..." type="text">
                 <div id="cards" class="cards">
-
+                    <div class="card">
+                        <h2>Resursa titls</h2>
+                        <p>Kaut kāds teksts</p>
+                    </div>
+                    <div class="card">
+                        <h2>Title</h2>
+                        <p>Kaut kāds teksts</p>
+                    </div>
+                    <div class="card">
+                        <h2>Title</h2>
+                        <p>Kaut kāds teksts</p>
+                    </div>
+                    <div class="card">
+                        <h2>Title</h2>
+                        <p>Kaut kāds teksts</p>
+                    </div>
                 </div>
             </div>
 

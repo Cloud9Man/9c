@@ -456,3 +456,11 @@ footer nav {
   padding: 10px;
   width: auto;
 }
+
+a {
+  text-decoration: none;
+}
+
+.cards a {
+  color: white;
+}
