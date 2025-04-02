@@ -161,9 +161,26 @@
     if (document.cookie.includes('loggedIn=true')) {
         get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
             if (user.exists()) {
+                var admin
+                switch (user.val().admin) {
+                    case null:
+                        admin = false
+                        break;
+                    case undefined:
+                        admin = false
+                        break;
+                    case false:
+                        admin = false
+                        break;
+                    case true:
+                        admin = true
+                        break;
+                    default:
+                        break;
+                }
                 document.title = `${user.val().username} profile`;
                 profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
-                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
+                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi | Administrators: ${user.val().admin}`;
                 profileAboutYou.innerHTML = user.val().aboutyou
             }
         }).catch((error) => {

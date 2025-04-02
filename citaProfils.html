@@ -111,9 +111,26 @@
 
     get(child(dbRef, `users/${getCookie('viewProfile')}`)).then((user) => {
             if (user.exists()) {
+                var admin;
+                switch (user.val().admin) {
+                    case null:
+                        admin = false
+                        break;
+                    case undefined:
+                        admin = false
+                        break;
+                    case false:
+                        admin = false
+                        break;
+                    case true:
+                        admin = true
+                        break;
+                    default:
+                        break;
+                }
                 profileName.textContent = user.val().username;
                 profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
-                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi`;
+                profileTag.innerHTML = `${user.val().class} | Vecums: ${user.val().age} gadi | Administrators: ${admin}`;
                 profileAboutYou.innerHTML = user.val().aboutyou;
                 document.title = `${user.val().username} profile`;
             }

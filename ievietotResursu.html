@@ -57,12 +57,21 @@
         if (document.cookie.includes('loggedIn=true')) {
             get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
                 if (user.exists()) {
-                    profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
-                    console.log('Set profile icon!');
+                    if (user.val().admin != true) {
+                        alert('Tev ir jābūt administratoram, lai ieliktu resursu.')
+                        window.location.href = 'resursi.html';
+                    } else {
+                        profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
+                        console.log('Set profile icon!');
+
+                    }
                 }
             }).catch((error) => {
                 console.error(error);
             });
+        } else {
+            alert('Tev ir jāieiet savā profilā, lai ieliktu resursu.')
+            window.location.href = 'resursi.html';
         }
 
         ievietotButton.addEventListener('click', () => {
@@ -132,12 +141,12 @@
             </nav>
         </header>
         <div id="loginBox" class="loginBox">
-            <h2>Profils / Profila izveide</h2>
+            <h2>Ieraksta izveide (resursiem)</h2>
             <form id="loginForm">
                 <h3>Titls</h3>
-                <input required id="usernameInput" placeholder="Ievadi lietotājvārdu..">
+                <input required id="usernameInput" placeholder="Ievadi titlu..">
                 <h3>Apraksts</h3>
-                <input required id="passwordInput" placeholder="Ievadi paroli..">
+                <input required id="passwordInput" placeholder="Ievadi aprakstu..">
                 <div>
                     <button type="button" id="login">Ievietot</button>
                 </div>
