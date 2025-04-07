@@ -37,7 +37,7 @@
         const time = new Date(timestamp);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
-
+        const resourceButton = document.getElementById('resourceButton');
 
         try {
             push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
@@ -55,6 +55,10 @@
                 console.error(error);
             });
         }
+
+        resourceButton.addEventListener('click', () => {
+            window.location.href = 'resursi.html'
+        })
     </script>
     <title>Problēma</title>
 </head>
@@ -84,6 +88,7 @@
                     Telefona atkarība ir pieaugoša problēma mūsdienās, ko ietekmē arvien paplašinātās digitālās
                     tehnoloģijas. Lai gan šis ir noderīgs rīks, kas uzlabo mūsu saziņas un darba efektivitāti, pārmērīgs
                     telefona lietošanas dēļ var būt sociāli izolējošas, nomācošas un depresīvas sekas.</p>
+                <button type="button" id="resourceButton">Doties uz resursiem</button>
             </div>
             <div class="img">
                 <img src="./Assets/Images/telefons.png">

@@ -147,29 +147,6 @@ input:checked+.slider:before {
   font-style: normal;
 }
 
-.section {
-  padding: 5% 10%;
-  display: flex;
-}
-
-.section h2 {
-  margin-bottom: 4rem;
-}
-.section div.text {
-  max-width: 50%;
-  margin: 1rem;
-}
-.section div.img {
-  margin: auto;
-}
-.section div.img img { 
-  width: 350px;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-
 h1 {
   font-size: 26px;
 }
@@ -486,4 +463,42 @@ a {
 
 .cards a {
   color: white;
+}
+
+
+.section {
+  padding: 5% 10%;
+  display: flex;
+}
+.section h1 {
+  color: #f5f85a;
+}
+
+div.section h2 {
+  color: rgba(245, 248, 90, 0.9);
+}
+
+.section h2 {
+  margin-bottom: 3rem;
+}
+.section div.text {
+  max-width: 50%;
+  margin: 1rem;
+}
+.section div.img {
+  margin: auto;
+}
+.section div.img img { 
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.section button {
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 10px;
+  width: 50%;
 }
