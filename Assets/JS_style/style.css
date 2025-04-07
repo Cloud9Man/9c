@@ -147,6 +147,29 @@ input:checked+.slider:before {
   font-style: normal;
 }
 
+.section {
+  padding: 5% 10%;
+  display: flex;
+}
+
+.section h2 {
+  margin-bottom: 4rem;
+}
+.section div.text {
+  max-width: 50%;
+  margin: 1rem;
+}
+.section div.img {
+  margin: auto;
+}
+.section div.img img { 
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
 h1 {
   font-size: 26px;
 }
