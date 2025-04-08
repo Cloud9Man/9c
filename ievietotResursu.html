@@ -87,7 +87,7 @@
                     } else {
                         try {
                             set(ref(database, 'resursi/' + usernameInput.value), {
-                                title: usernameInput.value,
+                                title: `${usernameInput.value}`,
                                 desc: passwordInput.value || 'none',
                             });
                             alert(`Account has been created!`)

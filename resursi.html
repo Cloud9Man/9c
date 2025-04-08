@@ -61,21 +61,43 @@
             let a = document.createElement("a");
             let resourcediv = document.createElement("div");
             resourcediv.classList.add('card');
+            resourcediv.id = `res-${element.val().title}`
             let resourceh2 = document.createElement("h2");
             let resourcep = document.createElement("p");
-            resourceh2.textContent = element.val().title;
-            resourcep.textContent = element.val().desc;
+            resourcep.id = 'resourceP';
 
-            a.href = "./resurs.html"
+            resourceh2.textContent = element.val().title;
+
+            let text = element.val().desc
+            var words = text.split(" "); // split by a space(words seperator)
+
+            var firstTwentyWords = words.slice(0, 20); // create a sub-array of 20 words
+            var firstTwentyWordsJoined = firstTwentyWords.join(" ");
+
+            var nextTwentyWords = words.slice(20, 40); // create a sub-array of 20 words
+            var nextTwentyWordsJoined = firstTwentyWords.join(" ");
+
+            resourcep.textContent = `${firstTwentyWordsJoined, nextTwentyWordsJoined}...`;
+
+            a.href = "#"
             a.append(resourcediv);
             resourcediv.append(resourceh2);
             resourcediv.append(resourcep);
 
             document.getElementById("cards").append(a);
+            
         });
         loginButton.addEventListener('click', () => {
             window.location.href = 'ievietotResursu.html'
-        })
+        });
+        window.onclick = function () {
+            if (event.target.id.includes('res-')) {
+                console.log(event.target.id);
+
+                document.cookie = `resource=${event.target.id.slice(4)}`;
+                window.location.href = 'resurs.html'
+            }
+        }
     </script>
     <title>Resursi</title>
 </head>

@@ -11,8 +11,8 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-analytics.js";
-        import { getDatabase, ref, push, set, child, get, update, onValue, onChildAdded } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
-
+        import { getDatabase, ref, push, set, child, get, update } from 'https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js'
+    
         const firebaseConfig = {
             apiKey: "AIzaSyC6QHmty4_NIUoi3Mps-LuLVsJ12t9Upq4",
             authDomain: "skolasdarbs9klase.firebaseapp.com",
@@ -23,55 +23,59 @@
             measurementId: "G-8MDFSKJ4RY",
             databaseURL: "https://skolasdarbs9klase-default-rtdb.firebaseio.com/",
         };
-
+    
+        // INPUTS
+    
+        var usernameInput = document.getElementById('usernameInput');
+        var emailInput = document.getElementById('emailInput');
+        var passwordInput = document.getElementById('passwordInput');
+        var classSelector = document.getElementById('classSelector');
+        var ageInput = document.getElementById('ageInput');
+        var aboutyouInput = document.getElementById('aboutyouInput');
+    
+        // BUTTONS
+    
+        var loginBTN = document.querySelector('#login');
+        var changePFP = document.querySelector('#changePFP');
+        var registerBTN = document.querySelector('#register');
+        var changeAboutBTN = document.querySelector('#changeAbout');
+    
+    
+        //PROFILE
+        var resourceName = document.getElementById('resName');
+        var resourceImage = document.getElementById('resImg');
+        var resourceDesc = document.getElementById('resDesc');
+    
+    
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-
-        const database = getDatabase(app);
-
-        const lastLoggedIn = ref(database, "Last logged in (by any user)")
-        const userDatabase = ref(database, `Users/${getCookie("username")}`)
+    
+        const database = getDatabase(app)
         const dbRef = ref(getDatabase());
-
+    
         const timestamp = Date.now();
         const time = new Date(timestamp);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
-
-        const db = getDatabase();
-
-        try {
-            push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
-        } catch (e) {
-            console.log(`Ak! Kļūda: ${e}`);
+    
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(";").shift();
         }
-
-        if (document.cookie.includes('loggedIn=true')) {
-            get(child(dbRef, `users/${getCookie('username')}`)).then((user) => {
-                if (user.exists()) {
-                    profileImage.src = user.val().imageurl || "./Assets/Images/no-icon.png";
-                    console.log('Set profile icon!');
+    
+        get(child(dbRef, `resursi/${getCookie('resource')}`)).then((res) => {
+                if (res.exists()) {
+                    resourceName.textContent = res.val().title;
+                    resourceDesc.textContent = res.val().desc;
+                    resourceName.src = res.val().imageurl || "./Assets/Images/no-icon.png";
+                    document.title = `${res.val().title} - resurs`;
+                } else {
+                    
                 }
             }).catch((error) => {
                 console.error(error);
             });
-        }
-        onChildAdded(ref(db, 'resursi/'), (element) => {
-            let a = document.createElement("a");
-            let resourcediv = document.createElement("div");
-            resourcediv.classList.add('card');
-            let resourceh2 = document.createElement("h2");
-            let resourcep = document.createElement("p");
-            resourceh2.textContent = element.val().title;
-            resourcep.textContent = element.val().desc;
-
-            a.href = "./index.html"
-            a.append(resourcediv);
-            resourcediv.append(resourceh2);
-            resourcediv.append(resourcep);
-
-            document.getElementById("cards").append(a);
-        });
     </script>
     <title>Resursi</title>
 </head>
@@ -95,31 +99,14 @@
         </header>
         <div class="box">
             <div>
-                <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
+                <img id="resImg" src="" alt="">
             </div>
             <div>
-                <h1>Resursi</h1>
-                <input id="messageBox" placeholder="Meklēt..." type="text">
-                <div id="cards" class="cards">
-                    <div class="card">
-                        <h2>Resursa titls</h2>
-                        <p>Kaut kāds teksts</p>
-                    </div>
-                    <div class="card">
-                        <h2>Title</h2>
-                        <p>Kaut kāds teksts</p>
-                    </div>
-                    <div class="card">
-                        <h2>Title</h2>
-                        <p>Kaut kāds teksts</p>
-                    </div>
-                    <div class="card">
-                        <h2>Title</h2>
-                        <p>Kaut kāds teksts</p>
-                    </div>
-                </div>
+                <h1 id="resName"></h1>
+                <div class="divider"></div>
+                <h2 id="profileTag"></h2>
+                <p id="resDesc"></p>
             </div>
-
         </div>
     </main>
     <footer>
@@ -133,5 +120,6 @@
         </nav>
     </footer>
 </body>
+
 
 </html>

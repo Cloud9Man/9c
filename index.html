@@ -57,7 +57,13 @@
         }
 
         resourceButton.addEventListener('click', () => {
-            window.location.href = 'resursi.html'
+            let problemBox = document.getElementById('problemBox');
+            problemBox.classList.toggle('hidden');
+            if (resourceButton.textContent = `Vairāk par problēmu` && problemBox.classList.includes('hidden')) {
+                resourceButton.textContent = `Paslēpt problēmu`;
+            } else if (resourceButton.textContent = `Paslēpt problēmu` && !problemBox.classList.includes('hidden')) {
+
+            }
         })
     </script>
     <title>Problēma</title>
@@ -88,13 +94,13 @@
                     Telefona atkarība ir pieaugoša problēma mūsdienās, ko ietekmē arvien paplašinātās digitālās
                     tehnoloģijas. Lai gan šis ir noderīgs rīks, kas uzlabo mūsu saziņas un darba efektivitāti, pārmērīgs
                     telefona lietošanas dēļ var būt sociāli izolējošas, nomācošas un depresīvas sekas.</p>
-                <button type="button" id="resourceButton">Doties uz resursiem</button>
+                <button type="button" id="problemButton">Vairāk par problēmu</button>
             </div>
             <div class="img">
                 <img src="./Assets/Images/telefons.png">
             </div>
         </div>
-        <!--<div class="box">
+        <div class="hidden" id="problemBox" class="box">
             <div>
                 <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
             </div>
@@ -110,7 +116,7 @@
                     tempus, eu lobortis nunc congue. Integer tempus maximus sapien ac cursus.</p>
             </div>
 
-        </div>-->
+        </div>
     </main>
     <footer>
         <nav>
