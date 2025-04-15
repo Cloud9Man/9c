@@ -37,7 +37,7 @@
         const time = new Date(timestamp);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = new Intl.DateTimeFormat('en-US', options).format(Date.now());
-        const resourceButton = document.getElementById('resourceButton');
+        const problemButton = document.getElementById('problemButton');
 
         try {
             push(lastLoggedIn, `${formattedDate}; ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
@@ -56,13 +56,14 @@
             });
         }
 
-        resourceButton.addEventListener('click', () => {
+        problemButton.addEventListener('click', () => {
+            console.log('pressed')
             let problemBox = document.getElementById('problemBox');
             problemBox.classList.toggle('hidden');
-            if (resourceButton.textContent = `Vairāk par problēmu` && problemBox.classList.includes('hidden')) {
-                resourceButton.textContent = `Paslēpt problēmu`;
-            } else if (resourceButton.textContent = `Paslēpt problēmu` && !problemBox.classList.includes('hidden')) {
-
+            if (problemButton.textContent = `Vairāk par problēmu` && !problemBox.classList.contains('hidden')) {
+                problemButton.textContent = `Paslēpt problēmu`;
+            } else if (problemButton.textContent = `Paslēpt problēmu` && problemBox.classList.contains('hidden')) {
+                problemButton.textContent = `Vairāk par problēmu`;
             }
         })
     </script>
@@ -100,7 +101,7 @@
                 <img src="./Assets/Images/telefons.png">
             </div>
         </div>
-        <div class="hidden" id="problemBox" class="box">
+        <div class="box hidden" id="problemBox">
             <div>
                 <img src="./Assets/Images/Screenshot 2024-11-05 152439.png" alt="">
             </div>

@@ -25,6 +25,8 @@
             databaseURL: "https://skolasdarbs9klase-default-rtdb.firebaseio.com/",
         };
 
+        var isTyping;
+
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
 
@@ -129,6 +131,27 @@
                 window.location.href = 'citaProfils.html'
             }
         }
+
+        messageBox.addEventListener('keyup', () => {
+            isTyping = true;
+        })
+
+        messageBox.addEventListener('change', () => {
+            isTyping = false;
+        })
+
+        var typingInd = document.getElementById('typingInd');
+
+        function checkIfTyping() {
+            if (isTyping == true) {
+                typingInd.textContent = getCookie('username') + ' ir rakstīt...';
+            } else if (isTyping == false || isTyping == undefined || isTyping == null) {
+                typingInd.textContent = null;
+            }
+            setTimeout(checkIfTyping, 1)
+        }
+
+        checkIfTyping()
     </script>
     <title>Čats</title>
 </head>
@@ -163,6 +186,7 @@
                 <input id="messageBox" type="text">
                 <button id="deleteMessage"><i class="fa-solid fa-trash"></i></button>
                 <button id="messageButton"><i class="fa-solid fa-paper-plane"></i></button>
+                <h2 id="typingInd"></h2>
             </div>
 
         </div>
