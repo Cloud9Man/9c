@@ -132,26 +132,59 @@
             }
         }
 
-        messageBox.addEventListener('keyup', () => {
-            isTyping = true;
+        messageBox.addEventListener('focus', () => {
+            get(child(dbRef, `peopleTyping`)).then((data) => {
+                var count = data.val().count;
+
+                console.log(`Count before focus: ${count}`);
+
+                if (isNaN(count) || count == 0) {
+                    update(ref(database, `peopleTyping`), {
+                        count: 1,
+                    });
+                    console.log(`Count was one or undefined; New count: 1`);
+                } else if (count > 0) {
+                    update(ref(database, `peopleTyping`), {
+                        count: count + 1,
+                    });
+                    console.log(`Count was bigger than 1; New count: ${count}`);
+                };
+            });
         })
 
-        messageBox.addEventListener('change', () => {
-            isTyping = false;
+        messageBox.addEventListener('blur', () => {
+            get(child(dbRef, `peopleTyping`)).then((data) => {
+                var count = data.val().count;
+                console.log(`Count before unfocus: ${count}`);
+                if (count == 0) return;
+                if (count < 0) {
+                    update(ref(database, `peopleTyping`), {
+                        count: 0,
+                    });
+                } else if (count > 0) {
+                    update(ref(database, `peopleTyping`), {
+                        count: count - 1,
+                    });
+                };
+
+            });
         })
 
         var typingInd = document.getElementById('typingInd');
 
-        function checkIfTyping() {
-            if (isTyping == true) {
-                typingInd.textContent = getCookie('username') + ' ir rakstīt...';
-            } else if (isTyping == false || isTyping == undefined || isTyping == null) {
-                typingInd.textContent = null;
+        onValue(ref(db, `peopleTyping/count`), (data) => {
+            console.log(`Value changed: ${data.val()}`);
+            if (data.val() == 0 || data.val() < 0) {
+                document.getElementById('typingInd').classList.add('hidden');
+            } else {
+                document.getElementById('typingInd').classList.remove('hidden');
             }
-            setTimeout(checkIfTyping, 1)
-        }
-
-        checkIfTyping()
+            if (data.val() == 1) {  
+                document.getElementById('typingInd').textContent = `${data.val()} person is typing`;
+            } else if (data.val() > 1){
+                document.getElementById('typingInd').textContent = `${data.val()} people are typing`;
+            }
+        });
     </script>
     <title>Čats</title>
 </head>
