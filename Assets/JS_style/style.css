@@ -40,6 +40,11 @@ html#htmlPage button:hover {
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
+html#htmlPage button a {
+  color: black;
+}
+
+
 html#htmlPage div#chatBoxDiv.chatBoxDiv,
 html#htmlPage input#messageBox {
   border: 1px solid rgba(0, 0, 0, 0.5);
@@ -47,6 +52,25 @@ html#htmlPage input#messageBox {
 }
 html#htmlPage a#profileButton.clickable {
   color: rgba(0, 0, 0, 0.5);
+}
+
+html#htmlPage .section button  {
+  color: black;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: 100ms;
+}
+html#htmlPage .section button:hover {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+html#htmlPage div .card  {
+  color: rgba(0, 0, 0, 1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: 100ms;
+}
+html#htmlPage div .card:hover  {
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 html#htmlPage.dark div.box {
@@ -82,6 +106,27 @@ html#htmlPage.dark button {
 }
 html#htmlPage.dark button:hover {
   border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+html#htmlPage.dark .section button {
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 100ms;
+}
+html#htmlPage.dark .section button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+html#htmlPage.dark div .card  {
+  color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 100ms;
+}
+html#htmlPage.dark div .card:hover  {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+html#htmlPage.dark button a  {
+  color: rgba(255, 255, 255, 1);
 }
 
 
@@ -157,6 +202,10 @@ h2 {
 
 a {
   text-decoration: none;
+}
+
+button a {
+  color: white;
 }
 
 header {
@@ -386,7 +435,7 @@ select option {
 }
 
 .divider {
-  width: 20%;
+  width: 30%;
   height: 1px;
   margin-bottom: 0.5rem;
   background: rgba(255, 255, 255, 0.2);
@@ -403,7 +452,7 @@ main {
 footer {
   background: #151515;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-top: 20vh;
+  margin-top: 25vh;
 }
 
 footer nav {
